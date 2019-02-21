@@ -1,8 +1,10 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import 'reflect-metadata'; // required for Inversify
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
-}
-bootstrap();
+import { TYPES } from './types';
+
+import { mainContainer } from './inversify.config';
+import IBootstraper from './interfaces/IBootstraper';
+
+const bootstraper = mainContainer.get<IBootstraper>(TYPES.Bootstraper);
+
+bootstraper.startApplication();
